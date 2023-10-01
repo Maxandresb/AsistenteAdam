@@ -13,25 +13,33 @@ const dalleUrl = 'https://api.openai.com/v1/images/generations';
 export const apiCall = async (prompt)=>{
     
     // // Logic 1 : this will check the prompt from chatgpt if user wants to create an image
-    try{
-        console.log(prompt)
-        console.log('****obteniendo respuesta******')
-        const res = await client.post(chatgptUrl, {
-            model: "gpt-3.5-turbo",
-            messages: [{
-                role: 'user',
-                content: `Does this message want to generate an AI picture, image, art or anything similar? ${prompt} . Simply answer with a yes or no.`
-            }]
-        });
-        isArt = res.data?.choices[0]?.message?.content;
-        isArt = isArt.trim();
-        if(isArt.toLowerCase().includes('yes')){
-            console.log('dalle api call');
-            return dalleApiCall(prompt)
-        }else{
-            console.log('chatgpt api call')
-            return chatgptApiCall(prompt);
-        }
+    
+try{
+    console.log(prompt)
+    console.log('****obteniendo respuesta******')
+    const res = await client.post(chatgptUrl, {
+        model: "gpt-3.5-turbo",
+        messages: [{
+            role: 'system',
+            content: ` Eres un asistente que analiza el siguente prompt y define que funcion corresponde  usarse , solo responde el numero, nada mas, una respuesta de 1 caracter: 
+             1.Respuesta general , 2. crear imagenm 3.ver clima.
+            El promt es el siguiente
+             ${prompt}  .`
+        }]
+    });
+    console.log('********funcion a usar**********')
+    console.log(res.data?.choices[0]?.message?.content)
+    funcionUsar = res.data?.choices[0]?.message?.content;
+    funcionUsar = funcionUsar.trim();
+    if(funcionUsar.toLowerCase().includes('1')){
+        console.log('dalle api call');
+        //return dalleApiCall(prompt)
+        return chatgptApiCall(prompt);
+    }else if(funcionUsar.toLowerCase().includes('2')){
+        console.log('chatgpt api call')
+        return chatgptApiCall(prompt);
+         //return dalleApiCall(prompt)
+    }
 
     }catch(err){
         console.log('error: ',err);
