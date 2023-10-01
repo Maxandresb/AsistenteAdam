@@ -72,10 +72,8 @@ export const dummyMessages = [
          
           
         },
-        image: 'https://facebook.github.io/react/img/logo_og.png',
-        // You can also add a video prop:
-        video: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-        // Mark the message as sent, using one tick
+        image: 'https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg',
+       
         sent: true,
         // Mark the message as received, using two tick
         received: true,

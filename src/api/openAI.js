@@ -10,10 +10,12 @@ const client = axios.create({
 const chatgptUrl = 'https://api.openai.com/v1/chat/completions';
 const dalleUrl = 'https://api.openai.com/v1/images/generations';
 
-export const apiCall = async (prompt, messages)=>{
+export const apiCall = async (prompt)=>{
     
     // // Logic 1 : this will check the prompt from chatgpt if user wants to create an image
     try{
+        console.log(prompt)
+        console.log('****obteniendo respuesta******')
         const res = await client.post(chatgptUrl, {
             model: "gpt-3.5-turbo",
             messages: [{
@@ -25,10 +27,10 @@ export const apiCall = async (prompt, messages)=>{
         isArt = isArt.trim();
         if(isArt.toLowerCase().includes('yes')){
             console.log('dalle api call');
-            return dalleApiCall(prompt, messages)
+            return dalleApiCall(prompt)
         }else{
             console.log('chatgpt api call')
-            return chatgptApiCall(prompt, messages);
+            return chatgptApiCall(prompt);
         }
 
     }catch(err){
@@ -50,17 +52,29 @@ export const apiCall = async (prompt, messages)=>{
     
 }
 
-const chatgptApiCall = async (prompt, messages)=>{
+const chatgptApiCall = async (prompt)=>{
     try{
         const res = await client.post(chatgptUrl, {
             model: "gpt-3.5-turbo",
-            messages
+            messages:[{
+                role: "system",
+                content:
+                  "Eres un asistente virtual llamado adam, pensado para adultos mayores, responde preguntas medicas pero recordando que no eres un experto y recomiendas ver un profesional para tener mayor claridad",
+              },
+              { role: "user", content: `${prompt}` },],
+              max_tokens:200,
         })
 
         let answer = res.data?.choices[0]?.message?.content;
-        messages.push({role: 'assistant', content: answer.trim()});
+        const respuesta={_id: new Date().getTime() + 1,
+            text: answer,
+            createdAt: new Date(),
+            user: {
+              _id: 2,
+              
+            },};
         // console.log('got chat response', answer);
-        return Promise.resolve({success: true, data: messages}); 
+        return Promise.resolve({success: true, data: respuesta}); 
 
     }catch(err){
         console.log('error: ',err);
@@ -68,7 +82,7 @@ const chatgptApiCall = async (prompt, messages)=>{
     }
 }
 
-const dalleApiCall = async (prompt, messages)=>{
+const dalleApiCall = async (prompt)=>{
     try{
         const res = await client.post(dalleUrl, {
             prompt,

@@ -1,13 +1,79 @@
-import { View, Text,Image, SafeAreaView, TouchableOpacity } from 'react-native'
+import { View, Text,Image, SafeAreaView, TouchableOpacity , Alert} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { GiftedChat } from 'react-native-gifted-chat'
 import { dummyMessages } from "../constants";
+import { apiCall } from "../api/openAI";
 export default function PrincipalScreen() {
+  const [inputUsuario, setinputUsuario]= useState('')
   const [mensajes, setMensajes]= useState([])
   const [cargando, setCargando] =useState(false)
   const [hablando, setHablando] =useState(false)
-  useEffect(()=> setMensajes(dummyMessages))
+  //useEffect(()=> dummyMessages.map((mensaje)=>setMensajes((mensajesPrevios)=>GiftedChat.append(mensajesPrevios,mensaje))))
+
+
+
+  const obtenerRespuesta = async (input)=>{
+    setinputUsuario(input);
+    const mensajeUsuario= input[0];
+    setMensajes((mensajesPrevios)=> GiftedChat.append(mensajesPrevios,mensajeUsuario))
+    console.log('*****************input**************')
+    console.log(input)
+    console.log("***************mensajeUsuario*******************")
+    console.log(mensajeUsuario)
+    console.log("*************mensajes*********************")
+    console.log(mensajes)
+    console.log('entra en funcion')
+    console.log("**********************************")
+
+    if(input[0].text.length >0){
+      console.log('entra en if')
+    console.log("**********************************")
+
+      setCargando(true);
+      // let newMensajes ={ _id: new Date().getTime() + 2,   para cuando se use voz
+      //   text: input,
+      //   createdAt: new Date(),
+      //   user: {
+      //     _id: 1,
+          
+      //   }};
+      let newMensaje = mensajeUsuario.text;
+    console.log("***************newMensaje*******************")
+    console.log(newMensaje)
+      
+    console.log("****************mensajes******************")
+    console.log(mensajes)
+
+      apiCall(newMensaje).then(res=>{
+        console.log('******respuesta api obtenida*****');
+        setCargando(false);
+        if(res.success){
+          console.log(res.data);
+          setMensajes((mensajesPrevios)=>GiftedChat.append(mensajesPrevios,res.data))
+          setinputUsuario('');
+        }else{
+          Alert.alert("Ha ocurrido un error : ", res.msg);
+        }
+      })
+    }
+  }; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <View className="flex-1 bg-green-100">
      <SafeAreaView className="flex-1 justify-center">
@@ -25,6 +91,8 @@ export default function PrincipalScreen() {
      <GiftedChat 
      messages={mensajes}
      renderUsernameOnMessage={false}
+     onSend={(input)=>obtenerRespuesta(input)}
+     user={{_id:1}}
      />
      </View>
       {/* recording, clear and stop buttons */}
