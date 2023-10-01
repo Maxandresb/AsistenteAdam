@@ -17,14 +17,7 @@ export default function PrincipalScreen() {
     setinputUsuario(input);
     const mensajeUsuario= input[0];
     setMensajes((mensajesPrevios)=> GiftedChat.append(mensajesPrevios,mensajeUsuario))
-    console.log('*****************input**************')
-    console.log(input)
-    console.log("***************mensajeUsuario*******************")
-    console.log(mensajeUsuario)
-    console.log("*************mensajes*********************")
-    console.log(mensajes)
-    console.log('entra en funcion')
-    console.log("**********************************")
+    
 
     if(input[0].text.length >0){
       console.log('entra en if')
@@ -39,13 +32,7 @@ export default function PrincipalScreen() {
           
       //   }};
       let newMensaje = mensajeUsuario.text;
-    console.log("***************newMensaje*******************")
-    console.log(newMensaje)
-      
-    console.log("****************mensajes******************")
-    console.log(mensajes)
-
-      apiCall(newMensaje).then(res=>{
+          apiCall(newMensaje).then(res=>{
         console.log('******respuesta api obtenida*****');
         setCargando(false);
         if(res.success){

@@ -1,8 +1,8 @@
-import { apiKey } from "../constants";
+import {OPENAI_API_KEY} from '@env';
 import axios from 'axios';
 const client = axios.create({
     headers: {
-        "Authorization": "Bearer "+apiKey,
+        "Authorization": "Bearer "+OPENAI_API_KEY,
         "Content-Type": "application/json"
     }
 })
@@ -22,7 +22,7 @@ try{
         messages: [{
             role: 'system',
             content: ` Eres un asistente que analiza el siguente prompt y define que funcion corresponde  usarse , solo responde el numero, nada mas, una respuesta de 1 caracter: 
-             1.Respuesta general , 2. crear imagenm 3.ver clima.
+             1.Respuesta general , 2. crear imagen, 3.ver clima.
             El promt es el siguiente
              ${prompt}  .`
         }]
