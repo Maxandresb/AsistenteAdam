@@ -8,8 +8,7 @@ export const dummyMessages = [
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
+          
         },
       },
       {
@@ -18,8 +17,7 @@ export const dummyMessages = [
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
+          
         },
       },
       {
@@ -28,13 +26,39 @@ export const dummyMessages = [
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
+          
+        },
+      },
+      {
+        _id: new Date().getTime() + 18,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          
+        },
+      },
+      {
+        _id: new Date().getTime() + 56,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          
+        },
+      },
+      {
+        _id: new Date().getTime() + 23,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          
         },
       },
       {
         _id: new Date().getTime() + 4,
-        text: 'This is a system message',
+        text: 'probando',
         createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
         system: true,
         // Any additional custom parameters are passed through
@@ -45,8 +69,8 @@ export const dummyMessages = [
         createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
         user: {
           _id: 2,
-          name: 'React Native',
-          avatar: 'https://facebook.github.io/react/img/logo_og.png',
+         
+          
         },
         image: 'https://facebook.github.io/react/img/logo_og.png',
         // You can also add a video prop:
